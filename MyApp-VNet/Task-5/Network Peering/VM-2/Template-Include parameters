@@ -1,0 +1,92 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Vnet_2_name": {
+            "defaultValue": "Vnet-2",
+            "type": "String"
+        },
+        "disks_Vnet_2_OsDisk_1_03451f2bc5d34bd7b62b3c8b93e03ced_externalid": {
+            "defaultValue": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Compute/disks/Vnet-2_OsDisk_1_03451f2bc5d34bd7b62b3c8b93e03ced",
+            "type": "String"
+        },
+        "networkInterfaces_vnet_2918_z1_externalid": {
+            "defaultValue": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Network/networkInterfaces/vnet-2918_z1",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2024-07-01",
+            "name": "[parameters('virtualMachines_Vnet_2_name')]",
+            "location": "eastus",
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ats_v2"
+                },
+                "additionalCapabilities": {
+                    "hibernationEnabled": false
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "win10-22h2-pro-g2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_Vnet_2_name'), '_OsDisk_1_03451f2bc5d34bd7b62b3c8b93e03ced')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS",
+                            "id": "[parameters('disks_Vnet_2_OsDisk_1_03451f2bc5d34bd7b62b3c8b93e03ced_externalid')]"
+                        },
+                        "deleteOption": "Delete",
+                        "diskSizeGB": 127
+                    },
+                    "dataDisks": [],
+                    "diskControllerType": "SCSI"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_Vnet_2_name')]",
+                    "adminUsername": "pkd-2",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": false,
+                        "patchSettings": {
+                            "patchMode": "Manual",
+                            "assessmentMode": "ImageDefault",
+                            "enableHotpatching": false
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_vnet_2918_z1_externalid')]",
+                            "properties": {
+                                "deleteOption": "Delete"
+                            }
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                },
+                "licenseType": "Windows_Client"
+            }
+        }
+    ]
+}
