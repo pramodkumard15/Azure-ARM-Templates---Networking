@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Vnet_2_name": {
+            "value": null
+        },
+        "disks_Vnet_2_OsDisk_1_03451f2bc5d34bd7b62b3c8b93e03ced_externalid": {
+            "value": null
+        },
+        "networkInterfaces_vnet_2918_z1_externalid": {
+            "value": null
+        }
+    }
+}
