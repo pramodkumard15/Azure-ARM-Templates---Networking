@@ -1,26 +1,13 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "virtualMachines_Network_Peering_Test_1_name": {
-            "defaultValue": "Network-Peering-Test-1",
-            "type": "String"
-        },
-        "disks_Network_Peering_Test_1_OsDisk_1_b4bf48a20e0f49e3a3ce472f6a05168f_externalid": {
-            "defaultValue": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Compute/disks/Network-Peering-Test-1_OsDisk_1_b4bf48a20e0f49e3a3ce472f6a05168f",
-            "type": "String"
-        },
-        "networkInterfaces_network_peering_test_1668_z1_externalid": {
-            "defaultValue": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Network/networkInterfaces/network-peering-test-1668_z1",
-            "type": "String"
-        }
-    },
+    "parameters": {},
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2024-07-01",
-            "name": "[parameters('virtualMachines_Network_Peering_Test_1_name')]",
+            "name": "Vnet-1",
             "location": "eastus",
             "zones": [
                 "1"
@@ -41,12 +28,12 @@
                     },
                     "osDisk": {
                         "osType": "Windows",
-                        "name": "[concat(parameters('virtualMachines_Network_Peering_Test_1_name'), '_OsDisk_1_b4bf48a20e0f49e3a3ce472f6a05168f')]",
+                        "name": "Vnet-1_OsDisk_1_08b7126df21e49a9929b32036665159c",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "managedDisk": {
-                            "storageAccountType": "Premium_LRS",
-                            "id": "[parameters('disks_Network_Peering_Test_1_OsDisk_1_b4bf48a20e0f49e3a3ce472f6a05168f_externalid')]"
+                            "storageAccountType": "Standard_LRS",
+                            "id": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Compute/disks/Vnet-1_OsDisk_1_08b7126df21e49a9929b32036665159c"
                         },
                         "deleteOption": "Delete",
                         "diskSizeGB": 127
@@ -55,13 +42,13 @@
                     "diskControllerType": "SCSI"
                 },
                 "osProfile": {
-                    "computerName": "Network-Peering",
-                    "adminUsername": "pkd",
+                    "computerName": "Vnet-1",
+                    "adminUsername": "pkd-1",
                     "windowsConfiguration": {
                         "provisionVMAgent": true,
-                        "enableAutomaticUpdates": true,
+                        "enableAutomaticUpdates": false,
                         "patchSettings": {
-                            "patchMode": "AutomaticByOS",
+                            "patchMode": "Manual",
                             "assessmentMode": "ImageDefault",
                             "enableHotpatching": false
                         }
@@ -73,17 +60,12 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[parameters('networkInterfaces_network_peering_test_1668_z1_externalid')]",
+                            "id": "/subscriptions/cd030fb1-182e-41b3-b547-38fe4e13a8e0/resourceGroups/Chatgpt/providers/Microsoft.Network/networkInterfaces/vnet-1443_z1",
                             "properties": {
-                                "deleteOption": "Detach"
+                                "deleteOption": "Delete"
                             }
                         }
                     ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true
-                    }
                 },
                 "licenseType": "Windows_Client"
             }
